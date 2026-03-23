@@ -1,15 +1,32 @@
+import { createRenderer, clear, drawRect } from "@rendering/renderer";
+import { createGameLoop, startLoop } from "@core/game-loop";
+import { createInput, setupInputListeners } from "@input/input";
+
+import type { InputState } from "@models/input";
+
 const canvas = document.createElement("canvas");
+canvas.width = 800;
+canvas.height = 600;
 document.body.appendChild(canvas);
 
-const ctx = canvas.getContext("2d")!;
+const renderer = createRenderer(canvas);
+const input: InputState = createInput();
+setupInputListeners(input, canvas);
 
-function loop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+const state = { x: 50, y: 50 };
 
-  ctx.fillStyle = "red";
-  ctx.fillRect(50, 50, 100, 100);
+const loop = createGameLoop(
+  (dt) => {
+    // Move with arrow keys
+    if (input.keys["ArrowRight"]) state.x += 200 * dt;
+    if (input.keys["ArrowLeft"]) state.x -= 200 * dt;
+    if (input.keys["ArrowDown"]) state.y += 200 * dt;
+    if (input.keys["ArrowUp"]) state.y -= 200 * dt;
+  },
+  () => {
+    clear(renderer);
+    drawRect(renderer, state.x, state.y, 100, 100);
+  }
+);
 
-  requestAnimationFrame(loop);
-}
-
-loop();
+startLoop(loop);

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",                // Important for aliases
+    "paths": {
+      "@core/*": ["core/*"],
+      "@rendering/*": ["rendering/*"],
+      "@input/*": ["input/*"],
+      "@math/*": ["math/*"],
+      "@models/*": ["models/*"]
+    },
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": ["node"]
+  },
+  "include": ["src"]
+}
