@@ -1,0 +1,13 @@
+{
+  "name": "ts-playtime",
+  "version": "0.0.1",
+  "description": "Trying to create the js/ts-gameengine no one asked for.",
+  "main": "index.js",
+  "scripts": {
+    "dev:engine": "pnpm --filter engine dev"
+  },
+  "keywords": [],
+  "author": "Sven Hemmer",
+  "license": "ISC",
+  "packageManager": "pnpm@10.32.1"
+}
