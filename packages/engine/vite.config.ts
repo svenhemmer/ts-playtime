@@ -9,6 +9,7 @@ export default defineConfig({
       "@rendering": path.resolve(__dirname, "src/rendering"),
       "@input": path.resolve(__dirname, "src/input"),
       "@math": path.resolve(__dirname, "src/math"),
+      "@utils": path.resolve(__dirname, "src/utils"),
     },
   },
 });

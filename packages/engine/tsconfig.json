@@ -6,7 +6,8 @@
       "@rendering/*": ["rendering/*"],
       "@input/*": ["input/*"],
       "@math/*": ["math/*"],
-      "@models/*": ["models/*"]
+      "@models/*": ["models/*"],
+      "@utils/*": ["utils/*"]
     },
     "module": "ESNext",
     "moduleResolution": "Bundler",
