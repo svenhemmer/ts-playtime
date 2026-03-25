@@ -6,5 +6,6 @@ export type InputState = {
     buttons: Record<number, boolean>;
     dragging: boolean;
     dragStart: { x: number; y: number};
+    wheel: number;
   };
 }

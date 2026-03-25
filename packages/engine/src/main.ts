@@ -7,6 +7,9 @@ import { createRectMesh } from "@rendering/mesh-factory";
 import { syncMeshes, renderWebGL } from "@core/webgl-systems";
 
 import type { EntityState } from "@models/entity";
+import { panCameraWithMouse, updateCamera, zoomCamera } from "@core/camera-control";
+import { createCamera } from "@utils/camera-helper";
+import { applyCamera } from "@rendering/camera-system";
 
 const WIDTH = 800;
 const HEIGHT = 600;
@@ -23,6 +26,8 @@ const entity = createEntity("player", 100, 100, {
   color: "blue",
 });
 
+const camera = createCamera();
+
 // attach mesh
 entity.mesh = createRectMesh(100, 100, "blue");
 renderer.scene.add(entity.mesh);
@@ -33,20 +38,11 @@ const state: EntityState = {
 
 const loop = createGameLoop(
   (dt) => {
-    if (input.keys["ArrowRight"]) entity.x += 200 * dt;
-    if (input.keys["ArrowLeft"]) entity.x -= 200 * dt;
-    if (input.keys["ArrowUp"]) entity.y += 200 * dt;
-    if (input.keys["ArrowDown"]) entity.y -= 200 * dt;
+    updateCamera(camera, input, dt);
+    panCameraWithMouse(camera, input);
+    zoomCamera(camera, input);
 
-    if (input.mouse.dragging) {
-      const pos = screenToWorld(
-        input.mouse.x,
-        input.mouse.y,
-        renderer
-      );
-      entity.x = pos.x;
-      entity.y = pos.y;
-    }
+    applyCamera(camera, renderer, WIDTH, HEIGHT);
     syncMeshes(state, renderer);
   },
   () => {

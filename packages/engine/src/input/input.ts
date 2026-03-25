@@ -2,7 +2,7 @@ import { InputState } from "@models/input";
 
 export const createInput = (): InputState => ({
   keys: {},
-  mouse: { x: 0, y: 0, buttons: {}, dragging: false, dragStart: { x: 0, y: 0 } },
+  mouse: { x: 0, y: 0, buttons: {}, dragging: false, dragStart: { x: 0, y: 0 }, wheel: 0 },
 });
 
 export const setupInputListeners = (input: InputState, canvas: HTMLCanvasElement) => {
@@ -37,4 +37,8 @@ export const setupInputListeners = (input: InputState, canvas: HTMLCanvasElement
     input.mouse.dragging = false;
     input.mouse.dragStart = undefined;
   });
+
+  canvas.addEventListener("wheel", (e) => {
+  input.mouse.wheel = e.deltaY;
+});
 };
