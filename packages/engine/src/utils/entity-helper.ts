@@ -4,6 +4,7 @@ export const createEntity = (id: string, x: number, y: number, opts: Partial<Omi
   id,
   x,
   y,
+  z: 0,
   vx: 0,
   vy: 0,
   color: "red",
