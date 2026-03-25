@@ -1,19 +1,44 @@
-import { createGameLoop, startLoop } from "@core/game-loop";
-import { screenToWorld, createInput, setupInputListeners } from "@input/index";
-import { createEntity } from "@utils/entity-helper";
-import { createWebGLRenderer } from "@rendering/webgl-renderer";
-import { createRectMesh } from "@rendering/mesh-factory";
+import { 
+  createGameLoop, startLoop, 
+  createSceneManager, 
+  panCameraWithMouse, updateCamera, zoomCamera, 
+  syncMeshes, renderWebGL,
+  setScene,
+  updateScene,
+  renderScene
+} from "@core/index";
 
-import { syncMeshes, renderWebGL } from "@core/webgl-systems";
+import { createInput, setupInputListeners } from "@input/index";
 
-import type { EntityState } from "@models/entity";
-import { panCameraWithMouse, updateCamera, zoomCamera } from "@core/camera-control";
-import { createCamera } from "@utils/camera-helper";
-import { applyCamera } from "@rendering/camera-system";
+import { createWebGLRenderer, createRectMesh, applyCamera } from "@rendering/index";
+
+import { createEntity, createCamera, createScene } from "@utils/index";
+
+import type { EntityState } from "@models/index";
 
 const WIDTH = 800;
 const HEIGHT = 600;
 
+const sceneManager = createSceneManager();
+
+const scene = createScene(
+  "main",
+  { entities: [] },
+  (dt) => {
+    updateCamera(camera, input, dt);
+    panCameraWithMouse(camera, input);
+    zoomCamera(camera, input);
+
+    applyCamera(camera, renderer, WIDTH, HEIGHT);
+
+    syncMeshes(state, renderer);
+  },
+  () => {
+    renderWebGL(renderer);
+  }
+);
+
+setScene(sceneManager, scene);
 const renderer = createWebGLRenderer(WIDTH, HEIGHT);
 
 const input = createInput();
@@ -37,17 +62,8 @@ const state: EntityState = {
 };
 
 const loop = createGameLoop(
-  (dt) => {
-    updateCamera(camera, input, dt);
-    panCameraWithMouse(camera, input);
-    zoomCamera(camera, input);
-
-    applyCamera(camera, renderer, WIDTH, HEIGHT);
-    syncMeshes(state, renderer);
-  },
-  () => {
-    renderWebGL(renderer);
-  }
+  (dt) => { updateScene(sceneManager, dt ) },
+  () => { renderScene(sceneManager) }
 );
 
 startLoop(loop);

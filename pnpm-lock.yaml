@@ -9,6 +9,10 @@ importers:
   .: {}
 
   packages/engine:
+    dependencies:
+      three:
+        specifier: ^0.183.2
+        version: 0.183.2
     devDependencies:
       '@types/node':
         specifier: ^25.5.0
@@ -258,6 +262,9 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
+  three@0.183.2:
+    resolution: {integrity: sha512-di3BsL2FEQ1PA7Hcvn4fyJOlxRRgFYBpMTcyOgkwJIaDOdJMebEFPA+t98EvjuljDx4hNulAGwF6KIjtwI5jgQ==}
+
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
     engines: {node: '>=12.0.0'}
@@ -493,6 +500,8 @@ snapshots:
       '@rolldown/binding-win32-x64-msvc': 1.0.0-rc.11
 
   source-map-js@1.2.1: {}
+
+  three@0.183.2: {}
 
   tinyglobby@0.2.15:
     dependencies:
