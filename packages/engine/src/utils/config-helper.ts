@@ -6,7 +6,7 @@ const defaultConfig: Config = {
         touch: false,
         mouse: {
             move: true,
-            drag: true
+            drag: false
         }
     },
     zoom: false,

@@ -9,7 +9,6 @@ export const createGameLoop = (update: (dt: number) => void, render: () => void)
 
 export const startLoop = (loop: GameLoop) => {
   loop.running = true;
-
   const tick = (time: number) => {
     if (!loop.running) return;
 

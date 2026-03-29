@@ -1,8 +1,10 @@
 import { AssetManifest, AssetStore, AudioState, LoadTask, TaskLoadingProgress } from '@models/index';
+import { NearestFilter, Texture, TextureLoader } from 'three';
 
 export const createAssetStore = (): AssetStore => ({
     images: new Map(),
-    audio: new Map()
+    audio: new Map(),
+    textures: new Map()
 });
 
 export const createImageTask = (
@@ -12,7 +14,7 @@ export const createImageTask = (
 ): LoadTask => async () => {
     const img = new Image();
     img.src = src;
-    await img.decode();
+    console.log(img)
     store.images.set(key, img);
 }
 
@@ -27,15 +29,33 @@ export const createSoundTask = (
     state.buffers.set(key, audio);
 }
 
+export const createTextureTask = (
+    store: AssetStore,
+    key: string,
+    src: string
+): LoadTask => async () => {
+    const loader = new TextureLoader();
+
+    const texture: Texture = await new Promise<Texture>((resolve, reject) => {
+        loader.load(src, resolve, undefined, reject);
+    })
+    
+    store.textures.set(key, texture);
+}
+
 export const createTasks = (manifest: AssetManifest, assets: AssetStore, audio: AudioState) => {
     const tasks: LoadTask[] = [];
 
-    for (const [key, src] of Object.entries(manifest.images)) {
+    for (const [key, src] of Object.entries(!!manifest.images? manifest.images: [])) {
         tasks.push(createImageTask(assets, key, src));
     }
 
-    for (const [key, src] of Object.entries(manifest.sounds)) {
+    for (const [key, src] of Object.entries(!!manifest.sounds? manifest.sounds: [])) {
         tasks.push(createSoundTask(audio, key, src))
+    }
+
+    for (const [key, src] of Object.entries(!!manifest.textures? manifest.textures: [])) {
+        tasks.push(createTextureTask(assets, key, src))
     }
 
     return tasks;
