@@ -1,5 +1,5 @@
 import { AssetStore } from '@models/assets';
-import { PlaneGeometry, MeshBasicMaterial, Mesh } from 'three';
+import { PlaneGeometry, MeshBasicMaterial, Mesh, Texture, NearestFilter } from 'three';
 
 export const createGenericRectMesh = (
   width: number,
@@ -19,7 +19,10 @@ export const createRectMesh = (
   key: string
 ) => {
   const geometry = new PlaneGeometry(width, height);
-  const texture = assets.textures.get(key)
+  const texture: Texture = assets.textures.get(key);
+  // pixel perfect... maybe make this a config option?
+  texture.magFilter = NearestFilter;
+  texture.minFilter = NearestFilter;
   const material = new MeshBasicMaterial({
     map: texture,
     transparent: true
