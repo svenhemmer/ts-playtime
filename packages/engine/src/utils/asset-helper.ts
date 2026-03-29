@@ -2,21 +2,9 @@ import { AssetManifest, AssetStore, AudioState, LoadTask, TaskLoadingProgress } 
 import { NearestFilter, Texture, TextureLoader } from 'three';
 
 export const createAssetStore = (): AssetStore => ({
-    images: new Map(),
     audio: new Map(),
     textures: new Map()
 });
-
-export const createImageTask = (
-    store: AssetStore,
-    key: string,
-    src: string
-): LoadTask => async () => {
-    const img = new Image();
-    img.src = src;
-    console.log(img)
-    store.images.set(key, img);
-}
 
 export const createSoundTask = (
     state: AudioState,
@@ -45,10 +33,6 @@ export const createTextureTask = (
 
 export const createTasks = (manifest: AssetManifest, assets: AssetStore, audio: AudioState) => {
     const tasks: LoadTask[] = [];
-
-    for (const [key, src] of Object.entries(!!manifest.images? manifest.images: [])) {
-        tasks.push(createImageTask(assets, key, src));
-    }
 
     for (const [key, src] of Object.entries(!!manifest.sounds? manifest.sounds: [])) {
         tasks.push(createSoundTask(audio, key, src))
