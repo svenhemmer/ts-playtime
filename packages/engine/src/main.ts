@@ -51,15 +51,15 @@ const entity = createEntity("player", 100, 100, {
   color: "blue",
 });
 
+const state: EntityState = {
+  entities: [entity],
+};
+
 const camera = createCamera();
 
 // attach mesh
 entity.mesh = createRectMesh(100, 100, "blue");
 renderer.scene.add(entity.mesh);
-
-const state: EntityState = {
-  entities: [entity],
-};
 
 const loop = createGameLoop(
   (dt) => { updateScene(sceneManager, dt ) },
